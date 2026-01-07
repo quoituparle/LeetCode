@@ -1,38 +1,32 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        int length = s.length();
-        int max_len;
-        int med;
-        for (int i = 0; i < length; ++i) {
-            if (s[i-1] == s[i+1]) {
-                for (int j = 0; j < i; ++j) {
-                    if (s[i-j] !== s[i+j]) {
-                        if (max_len < 2j + 1) {
-                            max_len = 2j + 1;
-                            med = i;
-                            break;
-                        }
-                    }
-                }
+    std::string longestPalindrome(std::string s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+
+        auto expand_from_center = [&](int left, int right) {
+            while (left >= 0 && right < s.length() && s[left] == s[right]) {
+                left--;
+                right++;
             }
-            if (s[i] == s[i+1]) {
-                for (int j = 0; j < i; ++j) {
-                    if (s[i-j] !== s[i+j+1]) {
-                        if (max_len < 2j + 2) {
-                            max_len = 2j + 2;
-                            med = i;
-                            break;
-                        }
-                    }
-                }
+            return s.substr(left + 1, right - left - 1);
+        };
+
+        std::string max_str = s.substr(0, 1);
+
+        for (int i = 0; i < s.length() - 1; i++) {
+            std::string odd = expand_from_center(i, i);
+            std::string even = expand_from_center(i, i + 1);
+
+            if (odd.length() > max_str.length()) {
+                max_str = odd;
+            }
+            if (even.length() > max_str.length()) {
+                max_str = even;
             }
         }
-        if (max_len%2 ！= 0) {
-            return s.substr(med-(max_len-1)/2,med+(max_len-1)/2)
-        } else {
-            return s.substr(med-(max_len-2)/2,med+(max_len-2)/2)
-        }
-        
+
+        return max_str;
     }
 };
