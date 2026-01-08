@@ -2,16 +2,13 @@ class Solution {
 public:
     int reverse(int x) {
         int m = 0;
-        if (x>0) {
-            while (x) {
-                m = m*10 + x%10;
-                x = (x-x%10)/10;
+        while (x != 0) {
+            int n = x%10;
+            x /= 10;
+            if (m > INT_MAX/10 || (m < INT_MIN/10)) {
+                return 0;
             }
-        } else {
-            while (x) {
-                m = m*10 + x%10;
-                x = (x+x%10)/10;
-            }
+            m = m*10 + n;
         }
         return m;
     }
