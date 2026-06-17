@@ -6,7 +6,7 @@ public:
         int s = 0;
         vector<string> ans;
         for (int i = 0; i < n; ++i) {
-            if ((nums[i] - nums[s] != i - s)) {
+            if ((uint64_t)nums[i] - nums[s] != i - s) {
                 ans.emplace_back(output(nums[s], nums[i-1]));
                 s = i;
             }
